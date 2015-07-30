@@ -59,10 +59,6 @@
         channel: 'garbage_trucks',
 		marker: function (latlng, data) {
 			var marker = new L.RotatedMarker(latlng, {
-				icon: L.icon({
-					iconUrl: 'http://i.imgur.com/2fmFQfN.png',
-					iconSize: [9, 32]
-				})
 			});
 		marker.bindPopup('VIN: ' + data.vin);
 		return marker;
