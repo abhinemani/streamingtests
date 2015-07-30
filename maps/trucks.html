@@ -29,6 +29,24 @@
     <div id='map'></div>
 
     <script>
+
+    L.RotatedMarker = L.Marker.extend({
+      options: { angle: 0 },
+      _setPos: function(pos) {
+        L.Marker.prototype._setPos.call(this, pos);
+        if (L.DomUtil.TRANSFORM) {
+          // use the CSS transform rule if available
+          this._icon.style[L.DomUtil.TRANSFORM] += ' rotate(' + this.options.angle + 'deg)';
+        } else if (L.Browser.ie) {
+          // fallback for IE6, IE7, IE8
+          var rad = this.options.angle * L.LatLng.DEG_TO_RAD,
+          costheta = Math.cos(rad),
+          sintheta = Math.sin(rad);
+          this._icon.style.filter += ' progid:DXImageTransform.Microsoft.Matrix(sizingMethod=\'auto expand\', M11=' +
+            costheta + ', M12=' + (-sintheta) + ', M21=' + sintheta + ', M22=' + costheta + ')';
+        }
+      }
+    });
       // this stream is really slow, you may need to wait to see markers appear
       var pubnub = PUBNUB.init({
         subscribe_key: 'sub-c-04997524-06fe-11e5-aefa-0619f8945a4f'
@@ -39,7 +57,22 @@
         mb_token: 'pk.eyJ1IjoiYWJoaW5lbWFuaSIsImEiOiJ6cUNIOFRZIn0.Kzx0U95dWMk1Ubsqu7jM2Q',
         mb_id: 'abhinemani.n1j32d62',
         channel: 'garbage_trucks',
+
+	      marker: function (latlng, data) {
+
+	        var marker = new L.RotatedMarker(latlng, {
+	          icon: L.icon({
+	            iconUrl: 'http://i.imgur.com/2fmFQfN.png',
+	            iconSize: [9, 32]
+	          })
+	        });
+
+	        return marker;
+
+	      },
+		  
       });
+	  
     </script>
   </body>
 </html>
