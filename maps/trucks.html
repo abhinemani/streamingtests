@@ -57,9 +57,16 @@
         mb_token: 'pk.eyJ1IjoiYWJoaW5lbWFuaSIsImEiOiJ6cUNIOFRZIn0.Kzx0U95dWMk1Ubsqu7jM2Q',
         mb_id: 'abhinemani.n1j32d62',
         channel: 'garbage_trucks',
-
-
-		  
+		marker: function (latlng, data) {
+			var marker = new L.RotatedMarker(latlng, {
+				icon: L.icon({
+					iconUrl: 'http://i.imgur.com/2fmFQfN.png',
+					iconSize: [9, 32]
+				})
+			});
+		marker.bindPopup('VIN: ' + data.vin);
+		return marker;
+	}	  
       });
 	  
     </script>
